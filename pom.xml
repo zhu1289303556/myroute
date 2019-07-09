@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.1.6.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <groupId>com.ayl</groupId>
+    <artifactId>route-server</artifactId>
+    <version>1.0.1</version>
+    <name>route-server</name>
+    <description>route-server for Spring Boot</description>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <netty.version>4.1.36.Final</netty.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.8</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-buffer</artifactId>
+            <version>${netty.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-codec</artifactId>
+            <version>${netty.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-codec-http</artifactId>
+            <version>${netty.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-handler</artifactId>
+            <version>${netty.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-handler-proxy</artifactId>
+            <version>${netty.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcpkix-jdk15on</artifactId>
+            <version>1.58</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+    </dependencies>
+
+<!--    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>-->
+
+    <build>
+        <finalName>${project.artifactId}-${project.version}</finalName>
+        <plugins>
+            <!--<plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>-->
+
+            <!--<plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>appassembler-maven-plugin</artifactId>
+                <version>2.0.0</version>
+                <configuration>
+                    &lt;!&ndash; 生成linux, windows两种平台的执行脚本 &ndash;&gt;
+                    <platforms>
+                        <platform>unix</platform>
+                        <platform>windows</platform>
+                    </platforms>
+                    &lt;!&ndash; 包存放的根目录 &ndash;&gt;
+                    <assembleDirectory>${project.build.directory}/${project.name}</assembleDirectory>
+                    &lt;!&ndash; 打包的jar，以及maven依赖的jar存放目录 &ndash;&gt;
+                    <repositoryName>lib</repositoryName>
+                    &lt;!&ndash; lib目录中jar的存放规则，默认是${groupId}/${artifactId}的目录格式，flat表示直接把jar放到lib目录 &ndash;&gt;
+                    &lt;!&ndash; 可执行脚本的存放目录 &ndash;&gt;
+                    <binFolder>bin</binFolder>
+                    &lt;!&ndash; 配置文件的存放目录 &ndash;&gt;
+                    <configurationDirectory>conf</configurationDirectory>
+                    &lt;!&ndash; 拷贝配置文件到上面的目录中 &ndash;&gt;
+                    <copyConfigurationDirectory>true</copyConfigurationDirectory>
+                    &lt;!&ndash; 从哪里拷贝配置文件 (默认src/main/config) &ndash;&gt;
+                    <configurationSourceDirectory>src/main/resources</configurationSourceDirectory>
+                    <repositoryLayout>flat</repositoryLayout>
+                    <encoding>UTF-8</encoding>
+                    <logsDirectory>logs</logsDirectory>
+                    <tempDirectory>tmp</tempDirectory>
+                    <programs>
+                        <program>
+                            &lt;!&ndash; 启动类 &ndash;&gt;
+                            <mainClass>com.ayl.StartApplication</mainClass>
+                            &lt;!&ndash; 生成的脚本文件的名称，比如start.sh,你也可以根据你的需要命名成其他名字 &ndash;&gt;
+                            <name>start</name>
+                            <jvmSettings>
+                                <extraArguments>
+                                    <extraArgument>-server</extraArgument>
+                                    <extraArgument>-Xmx1G</extraArgument>
+                                    <extraArgument>-Xms1G</extraArgument>
+                                </extraArguments>
+                            </jvmSettings>
+                        </program>
+                    </programs>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>appassembler-maven-plugin</artifactId>
+                <version>2.0.0</version>
+                <configuration>
+                    &lt;!&ndash; 根目录 &ndash;&gt;
+                    <assembleDirectory>${project.build.directory}/${project.name}</assembleDirectory>
+                    &lt;!&ndash; 打包的jar，以及maven依赖的jar存放目录 &ndash;&gt;
+                    <repositoryName>lib</repositoryName>
+                    &lt;!&ndash; 可执行脚本的存放目录 &ndash;&gt;
+                    <binFolder>bin</binFolder>
+                    &lt;!&ndash; 配置文件的存放目录 &ndash;&gt;
+                    <configurationDirectory>conf</configurationDirectory>
+                    &lt;!&ndash; 拷贝配置文件到上面的目录中 &ndash;&gt;
+                    <copyConfigurationDirectory>true</copyConfigurationDirectory>
+                    &lt;!&ndash; 从哪里拷贝配置文件 (默认src/main/config) &ndash;&gt;
+                    <configurationSourceDirectory>src/main/resources</configurationSourceDirectory>
+                    &lt;!&ndash; lib目录中jar的存放规则，默认是${groupId}/${artifactId}的目录格式，flat表示直接把jar放到lib目录 &ndash;&gt;
+                    <repositoryLayout>flat</repositoryLayout>
+                    <encoding>UTF-8</encoding>
+                    <logsDirectory>logs</logsDirectory>
+                    <tempDirectory>tmp</tempDirectory>
+                    <daemons>
+                        <daemon>
+                            <mainClass>com.ayl.StartApplication</mainClass>
+                            <platforms>
+                                <platform>jsw</platform>
+                            </platforms>
+                            <generatorConfigurations>
+                                <generatorConfiguration>
+                                    <generator>jsw</generator>
+                                    <includes>
+                                        <include>linux-x86-32</include>
+                                        <include>linux-x86-64</include>
+                                        <include>windows-x86-32</include>
+                                        <include>windows-x86-64</include>
+                                    </includes>
+                                    <configuration>
+                                        <property>
+                                            <name>configuration.directory.in.classpath.first</name>
+                                            <value>conf</value>
+                                        </property>
+                                        <property>
+                                            <name>wrapper.ping.timeout</name>
+                                            <value>120</value>
+                                        </property>
+                                        <property>
+                                            <name>set.default.REPO_DIR</name>
+                                            <value>lib</value>
+                                        </property>
+                                        <property>
+                                            <name>wrapper.logfile</name>
+                                            <value>logs/wrapper.log</value>
+                                        </property>
+                                    </configuration>
+                                </generatorConfiguration>
+                            </generatorConfigurations>
+                            <jvmSettings>
+                                &lt;!&ndash; jvm参数 &ndash;&gt;
+                                <systemProperties>
+                                    <systemProperty>com.sun.management.jmxremote</systemProperty>
+                                    <systemProperty>com.sun.management.jmxremote.port=8050</systemProperty>
+                                    <systemProperty>com.sun.management.jmxremote.authenticate=false</systemProperty>
+                                    <systemProperty>com.sun.management.jmxremote.ssl=false</systemProperty>
+                                </systemProperties>
+                            </jvmSettings>
+                        </daemon>
+                    </daemons>
+                </configuration>
+            </plugin>-->
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>appassembler-maven-plugin</artifactId>
+                <version>1.7</version>
+                <configuration>
+                    <configurationDirectory>conf</configurationDirectory>
+                    <includeConfigurationDirectoryInClasspath>true</includeConfigurationDirectoryInClasspath>
+                    <repositoryLayout>flat</repositoryLayout>
+                    <useWildcardClassPath>true</useWildcardClassPath>
+                    <daemons>
+                        <daemon>
+                            <id>route-server</id>
+                            <mainClass>com.ayl.StartApplication</mainClass>
+                            <commandLineArguments>
+                                <commandLineArgument>start</commandLineArgument>
+                            </commandLineArguments>
+                            <platforms>
+                                <platform>jsw</platform>
+                            </platforms>
+                            <jvmSettings>
+                                <!-- 启动内存配置 -->
+                                <maxStackSize>128</maxStackSize>
+                                <!--<extraArguments>
+                                    <extraArgument>-server</extraArgument>
+                                    <extraArgument>-XX:MaxPermSize=64M</extraArgument>
+                                    <extraArgument>-XX:+AggressiveOpts</extraArgument>
+                                    <extraArgument>-XX:MaxDirectMemorySize=2G</extraArgument>
+                                    &lt;!&ndash; 远程JMX &ndash;&gt;
+                                    <extraArgument>-Dcom.sun.management.jmxremote </extraArgument>
+                                    <extraArgument>-Dcom.sun.management.jmxremote.port=1984</extraArgument>
+                                    <extraArgument>-Dcom.sun.management.jmxremote.authenticate=false </extraArgument>
+                                    <extraArgument>-Dcom.sun.management.jmxremote.ssl=false </extraArgument>
+                                    <extraArgument>-Xmx1G</extraArgument>
+                                    <extraArgument>-Xms1G</extraArgument>
+                                </extraArguments>-->
+                                <systemProperties>
+                                    <systemProperty>com.sun.management.jmxremote</systemProperty>
+                                    <systemProperty>com.sun.management.jmxremote.port=1984</systemProperty>
+                                    <systemProperty>com.sun.management.jmxremote.authenticate=false</systemProperty>
+                                    <systemProperty>com.sun.management.jmxremote.ssl=false</systemProperty>
+                                </systemProperties>
+                                <extraArguments>
+                                    <extraArgument>-server</extraArgument>
+                                    <extraArgument>-Xmx1G</extraArgument>
+                                    <extraArgument>-Xms1G</extraArgument>
+                                </extraArguments>
+                            </jvmSettings>
+                            <generatorConfigurations>
+                                <generatorConfiguration>
+                                    <generator>jsw</generator>
+                                    <includes>
+                                        <include>linux-x86-64</include>
+                                        <include>windows-x86-64</include>
+                                    </includes>
+
+                                    <configuration>
+                                        <property>
+                                            <name>configuration.directory.in.classpath.first</name>
+                                            <value>conf</value>
+                                        </property>
+                                        <property>
+                                            <name>wrapper.ping.timeout</name>
+                                            <value>120</value>
+                                        </property>
+                                        <property>
+                                            <name>set.default.REPO_DIR</name>
+                                            <value>lib</value>
+                                        </property>
+                                        <property>
+                                            <name>wrapper.logfile.maxsize</name>
+                                            <value>512m</value>
+                                        </property>
+                                        <property>
+                                            <name>wrapper.logfile.maxfiles</name>
+                                            <value>30</value>
+                                        </property>
+                                        <property>
+                                            <name>wrapper.logfile</name>
+                                            <value>logs/wrapper.log</value>
+                                        </property>
+                                    </configuration>
+
+                                </generatorConfiguration>
+                            </generatorConfigurations>
+                        </daemon>
+
+                    </daemons>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>generate-jsw</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>generate-daemons</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <descriptors>
+                        <descriptor>src/main/assembly/assembly-linux.xml</descriptor>
+                        <descriptor>src/main/assembly/assembly-win.xml</descriptor>
+                    </descriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

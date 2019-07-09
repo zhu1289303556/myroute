@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: wall-myroute
+logging:
+  level:
+    root: info
+    com.ayl: debug
+  file: logs/${spring.application.name}.log
+
+webserver:
+  port: 8050

@@ -1,0 +1,19 @@
+#路由配置
+server:
+#  路由策略
+  routeName : train
+  routes:
+  -
+    name: ab-test1
+    routeHost:
+      host: test2.eimoney.com
+      port: 80
+  -
+    name: ab-test2
+    routeHost:
+      host: test.eimoney.com
+      port: 80
+#  -
+#    name: ab-test3
+#    host: test2.eimoney.com
+#    port: 80
